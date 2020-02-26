@@ -1,0 +1,44 @@
+<?php
+
+namespace PhpLab\Core\Libs\Env;
+
+use PhpLab\Core\Legacy\Yii\Helpers\ArrayHelper;
+use Symfony\Component\Dotenv\Dotenv;
+use RuntimeException;
+
+class DotEnvHelper {
+
+    static private $map = [];
+
+    public static function init() {
+        // Load cached env vars if the .env.local.php file exists
+        // Run "composer dump-env prod" to create it (requires symfony/flex >=1.2)
+        if (is_array($env = @include __DIR__ . '/../../../../../../.env.local.php')) {
+            foreach ($env as $k => $v) {
+                $_ENV[$k] = $_ENV[$k] ?? (isset($_SERVER[$k]) && 0 !== strpos($k, 'HTTP_') ? $_SERVER[$k] : $v);
+            }
+        } elseif ( ! class_exists(Dotenv::class)) {
+            throw new RuntimeException('Please run "composer require symfony/dotenv" to load the ".env" files configuring the application.');
+        } else {
+            // load all the .env files
+            (new Dotenv(false))->loadEnv(__DIR__ . '/../../../../../../.env');
+        }
+    }
+
+    public static function get(string $path = null, $default = null) {
+        if(empty(self::$map)) {
+            self::forgeMap();
+        }
+        return ArrayHelper::getValue(self::$map, $path, $default);
+    }
+
+    private static function forgeMap() {
+        foreach ($_ENV as $name => $value) {
+            $pureName = $name;
+            $pureName = strtolower($pureName);
+            $pureName = str_replace('_', '.', $pureName);
+            ArrayHelper::set(self::$map, $pureName, $value);
+        }
+    }
+
+}
