@@ -4,6 +4,7 @@ namespace PhpLab\Core\Patterns\Strategy\Base;
 
 use PhpLab\Core\Legacy\Yii\Helpers\ArrayHelper;
 use PhpLab\Core\Exceptions\InvalidArgumentException;
+use PhpLab\Core\Helpers\InstanceHelper;
 
 /**
  * Class BaseStrategyContext
@@ -36,11 +37,23 @@ abstract class BaseStrategyContextHandlers extends BaseStrategyContext
         return $this->forgeStrategyInstance($strategyDefinition);
     }
 
+    public function forgeStrategyInstance($strategyDefinition)
+    {
+        $strategyInstance = InstanceHelper::create($strategyDefinition, []);
+        return $strategyInstance;
+    }
+
     public function setStrategyName(string $strategyName)
     {
         $this->validate($strategyName);
         $strategyDefinition = ArrayHelper::getValue($this->getStrategyDefinitions(), $strategyName);
         $this->setStrategyDefinition($strategyDefinition);
+    }
+
+    public function setStrategyDefinition($strategyDefinition)
+    {
+        $strategyInstance = $this->forgeStrategyInstance($strategyDefinition);
+        $this->setStrategyInstance($strategyInstance);
     }
 
     protected function validate($name)

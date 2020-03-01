@@ -2,8 +2,6 @@
 
 namespace PhpLab\Core\Patterns\Strategy\Base;
 
-use PhpLab\Core\Helpers\InstanceHelper;
-
 /**
  * Class BaseStrategyContext
  *
@@ -16,26 +14,19 @@ abstract class BaseStrategyContext
 
     private $strategyInstance;
 
-    public function getStrategyInstance()
-    {
-        return $this->strategyInstance;
-    }
-
-    public function setStrategyInstance($strategyInstance)
+    public function __construct(object $strategyInstance = null)
     {
         $this->strategyInstance = $strategyInstance;
     }
 
-    public function setStrategyDefinition($strategyDefinition)
+    protected function getStrategyInstance()
     {
-        $strategyInstance = $this->forgeStrategyInstance($strategyDefinition);
-        $this->setStrategyInstance($strategyInstance);
+        return $this->strategyInstance;
     }
 
-    public function forgeStrategyInstance($strategyDefinition)
+    protected function setStrategyInstance($strategyInstance)
     {
-        $strategyInstance = InstanceHelper::create($strategyDefinition, []);
-        return $strategyInstance;
+        $this->strategyInstance = $strategyInstance;
     }
 
 }
