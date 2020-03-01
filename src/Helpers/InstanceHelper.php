@@ -7,7 +7,7 @@ use php7extension\yii\web\ServerErrorHttpException;
 class InstanceHelper
 {
 
-    public static function create($definition, $data, $interfaceClass = null)
+    public static function create($definition, array $data = [], $interfaceClass = null): object
     {
         $definition = ClassHelper::normalizeComponentConfig($definition);
         $handlerInstance = ClassHelper::createObject($definition);
@@ -18,7 +18,7 @@ class InstanceHelper
         return $handlerInstance;
     }
 
-    public static function ensure($definition, $data = [], $interfaceClass = null)
+    public static function ensure($definition, $data = [], $interfaceClass = null): object
     {
         if (is_object($definition)) {
             if ($interfaceClass) {
