@@ -3,6 +3,7 @@
 namespace PhpLab\Core\Domain\Base;
 
 use PhpLab\Core\Domain\Interfaces\Entity\EntityIdInterface;
+use PhpLab\Core\Domain\Interfaces\Entity\ValidateEntityInterface;
 use PhpLab\Core\Domain\Libs\DataProvider;
 use PhpLab\Core\Domain\Libs\Query;
 use PhpLab\Core\Domain\Helpers\EntityHelper;
@@ -77,11 +78,18 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
     public function updateById($id, $data)
     {
         $isAvailable = $this->beforeMethod([$this, 'updateById']);
-        $entityClass = $this->getEntityClass();
-        $entityInstanse = new $entityClass;
-        EntityHelper::setAttributes($entityInstanse, $data);
-        ValidationHelper::validateEntity($entityInstanse);
-        return $this->getRepository()->update($entityInstanse);
+        if( ! $isAvailable) {
+            return;
+        }
+        //$entityClass = $this->getEntityClass();
+        //$entityInstance = new $entityClass;
+        /** @var ValidateEntityInterface $entityInstance */
+        $entityInstance = $this->oneById($id);
+        EntityHelper::setAttributes($entityInstance, $data);
+        ValidationHelper::validateEntity($entityInstance);
+        //dd($entityInstance);
+        //$entityInstance->setId($id);
+        return $this->getRepository()->update($entityInstance);
     }
 
     public function deleteById($id)
