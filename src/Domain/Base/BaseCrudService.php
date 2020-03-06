@@ -10,6 +10,7 @@ use PhpLab\Core\Domain\Helpers\EntityHelper;
 use PhpLab\Core\Domain\Helpers\ValidationHelper;
 use PhpLab\Core\Domain\Interfaces\Repository\CrudRepositoryInterface;
 use PhpLab\Core\Domain\Interfaces\Service\CrudServiceInterface;
+use PhpLab\Core\Exceptions\NotFoundException;
 
 /**
  * Class BaseCrudService
@@ -57,6 +58,12 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         return $this->getRepository()->count($query);
     }
 
+    /**
+     * @param $id
+     * @param Query|null $query
+     * @return object|EntityIdInterface
+     * @throws NotFoundException
+     */
     public function oneById($id, Query $query = null)
     {
         $query = $this->forgeQuery($query);
