@@ -2,9 +2,9 @@
 
 namespace PhpLab\Core\Domain\Interfaces;
 
-interface DomainInterface
-{
+use PhpLab\Core\Interfaces\GetNameInterface;
 
-    public function getName();
+interface DomainInterface extends GetNameInterface
+{
 
 }
