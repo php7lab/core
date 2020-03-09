@@ -25,4 +25,7 @@ class StatusEnum extends BaseEnum
     // включен / одобрен
     const ENABLE = 100;
 
+    // обработано / завершено
+    const COMPLETED = 200;
+
 }
