@@ -3,6 +3,7 @@
 namespace PhpLab\Core\Domain\Helpers;
 
 use Illuminate\Support\Collection;
+use PhpLab\Core\Helpers\InstanceHelper;
 use PhpLab\Core\Legacy\Yii\Helpers\ArrayHelper;
 use PhpLab\Core\Legacy\Yii\Helpers\Inflector;
 use PhpLab\Core\Domain\Exceptions\UnprocessibleEntityException;
@@ -14,6 +15,15 @@ use Symfony\Component\Serializer\Serializer;
 
 class EntityHelper
 {
+
+    public static function createEntity(string $entityClass, $attributes = [])
+    {
+        $entityInstance = new $entityClass;
+        if ($attributes) {
+            self::setAttributes($entityInstance, $attributes);
+        }
+        return $entityInstance;
+    }
 
     public static function isEntity($data)
     {

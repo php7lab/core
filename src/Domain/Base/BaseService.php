@@ -5,13 +5,10 @@ namespace PhpLab\Core\Domain\Base;
 use PhpLab\Core\Domain\Helpers\EntityHelper;
 use PhpLab\Core\Domain\Interfaces\Traits\CreateEntityInterface;
 use PhpLab\Core\Domain\Interfaces\GetEntityClassInterface;
-use PhpLab\Core\Domain\Traits\CreateEntityTrait;
 use PhpLab\Core\Helpers\InstanceHelper;
 
 abstract class BaseService implements GetEntityClassInterface, CreateEntityInterface
 {
-
-    use CreateEntityTrait;
 
     protected $repository;
 
@@ -31,6 +28,13 @@ abstract class BaseService implements GetEntityClassInterface, CreateEntityInter
     public function getEntityClass(): string
     {
         return $this->getRepository()->getEntityClass();
+    }
+
+    public function createEntity(array $attributes = [])
+    {
+        $entityClass = $this->getEntityClass();
+        $entityInstance = EntityHelper::createEntity($entityClass, $attributes);
+        return $entityInstance;
     }
 
 }
