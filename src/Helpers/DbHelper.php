@@ -58,7 +58,7 @@ class DbHelper
         $connectionCofig = [
             'driver' => ArrayHelper::getValue($dsnConfig, 'scheme'),
             'host' => ArrayHelper::getValue($dsnConfig, 'host', '127.0.0.1'),
-            'dbname' => ArrayHelper::getValue($dsnConfig, 'path'),
+            'dbname' => trim(ArrayHelper::getValue($dsnConfig, 'path'), '/'),
             'username' => ArrayHelper::getValue($dsnConfig, 'user'),
             'password' => ArrayHelper::getValue($dsnConfig, 'pass'),
         ];
