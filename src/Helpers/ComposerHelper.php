@@ -10,6 +10,27 @@ class ComposerHelper
 
     private static $autoload_psr4;
 
+    public static function register(string $namespace, string $path): void
+    {
+        $path = realpath($path);
+        $function = function ($className) use ($namespace, $path) {
+            if (strpos($className, $namespace . '\\') !== 0 || $className == $namespace) {
+                return;
+            }
+            $fileName = str_replace($namespace, $path, $className);
+            if (strpos($path, '.php') === false) {
+                $fileName .= '.php';
+            }
+            if ( ! file_exists($fileName)) {
+                //exit($fileName);
+                exit('Class "' . $className . '" not found!');
+                //throw new FileNotFoundException('Class "' . $className . '" not found!');
+            }
+            include_once $fileName;
+        };
+        spl_autoload_register($function);
+    }
+
     public static function getPsr4Path($path)
     {
         self::ensure();
