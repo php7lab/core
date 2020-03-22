@@ -12,7 +12,7 @@ class ComposerHelper
 
     public static function register(string $namespace, string $path): void
     {
-        $path = realpath($path);
+        //$path = realpath($path);
         $function = function ($className) use ($namespace, $path) {
             if (strpos($className, $namespace . '\\') !== 0 || $className == $namespace) {
                 return;
@@ -21,12 +21,17 @@ class ComposerHelper
             if (strpos($path, '.php') === false) {
                 $fileName .= '.php';
             }
-            if ( ! file_exists($fileName)) {
-                //exit($fileName);
-                exit('Class "' . $className . '" not found!');
-                //throw new FileNotFoundException('Class "' . $className . '" not found!');
+            if(strpos($path, 'phar://') === 0) {
+                include_once $fileName;
+            } else {
+                if ( ! file_exists($fileName)) {
+                    exit($fileName);
+
+                    exit('Class "' . $className . '" not found!');
+                    //throw new FileNotFoundException('Class "' . $className . '" not found!');
+                }
+                include_once $fileName;
             }
-            include_once $fileName;
         };
         spl_autoload_register($function);
     }
