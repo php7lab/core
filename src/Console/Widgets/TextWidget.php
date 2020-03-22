@@ -4,19 +4,19 @@ namespace PhpLab\Core\Console\Widgets;
 
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Yaml\Yaml;
 
 class TextWidget extends BaseWidget
 {
 
     public function writelnList(array $items, bool $newline = true, int $options = 0)
     {
-        $message = implode(PHP_EOL, $items);
-        $this->output->write($message, $newline, $options);
+        $this->writeList($items, $newline, $options);
     }
 
     public function writeList(array $items, bool $newline = false, int $options = 0)
     {
-        $message = implode(PHP_EOL, $items);
+        $message = Yaml::dump($items, 10);
         $this->output->write($message, $newline, $options);
     }
 
