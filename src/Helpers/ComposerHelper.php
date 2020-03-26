@@ -34,6 +34,14 @@ class ComposerHelper
             }
         };
         spl_autoload_register($function);
+        self::add($namespace, $path);
+    }
+
+    private static function add(string $namespace, string $path) {
+        $namespace = trim($namespace, '/\\');
+        self::$autoload_psr4[$namespace . '\\'] = [
+            realpath($path)
+        ];
     }
 
     public static function getPsr4Path($path)
