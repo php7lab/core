@@ -41,12 +41,12 @@ class EntityHelper
         return $array;
     }
 
-    public static function createEntityCollection(string $entityClass, array $data = []): Collection
+    public static function createEntityCollection(string $entityClass, array $data = [], array $only = []): Collection
     {
         $collection = new Collection;
         foreach ($data as $item) {
             $entity = new $entityClass;
-            self::setAttributes($entity, $item);
+            self::setAttributes($entity, $item, $only);
             $collection->add($entity);
         }
         return $collection;
@@ -112,14 +112,17 @@ class EntityHelper
         $propertyAccessor->setValue($entity, $name, $value);
     }
 
-    public static function setAttributes(object $entity, $data): void
+    public static function setAttributes(object $entity, $data, array $only = []): void
     {
         if (empty($data)) {
             return;
         }
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        $only = $only ?: self::getAttributeNames($entity);
         foreach ($data as $name => $value) {
-            $propertyAccessor->setValue($entity, $name, $value);
+            if(empty($only) || in_array($name, $only)) {
+                $propertyAccessor->setValue($entity, $name, $value);
+            }
         }
     }
 
