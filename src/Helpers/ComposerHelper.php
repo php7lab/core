@@ -49,10 +49,8 @@ class ComposerHelper
         self::ensure();
         $path = self::normalizePath($path);
         $pathItems = explode('\\', $path);
-
         $paths = self::find($pathItems);
-
-        return ArrayHelper::first($paths);
+        return FileHelper::normalizePath(ArrayHelper::first($paths));
     }
 
     private static function find(array $pathItems): array

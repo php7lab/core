@@ -8,7 +8,7 @@ use PhpLab\Core\Legacy\Yii\Helpers\FileHelper;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Application;
 
-class CommandHepler
+class CommandHelper
 {
 
     public static function registerFromNamespaceList(array $namespaceList, ContainerInterface $container)
