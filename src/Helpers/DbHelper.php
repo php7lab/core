@@ -26,8 +26,15 @@ class DbHelper
         if(!empty($_ENV['DATABASE_URL'])) {
             $connections['default'] = DbHelper::parseDsn($_ENV['DATABASE_URL']);
         } else {
-            $connections['default'] = DotEnvHelper::get('db');
+            $config = DotEnvHelper::get('db');
+            $isFlatConfig = ! is_array(ArrayHelper::flatten($config));
+            if ($isFlatConfig) {
+                $connections['default'] = DotEnvHelper::get('db');
+            } else {
+                $connections = DotEnvHelper::get('db');
+            }
         }
+
         foreach ($connections as &$connection) {
             $connection = self::prepareConfig($connection);
         }
@@ -35,6 +42,7 @@ class DbHelper
     }
 
     private static function prepareConfig($connection) {
+
         $connection['driver'] = $connection['driver'] ?? $connection['connection'];
         $connection['dbname'] = $connection['dbname'] ?? $connection['database'];
 
