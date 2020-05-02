@@ -27,11 +27,11 @@ class DbHelper
             $connections['default'] = DbHelper::parseDsn($_ENV['DATABASE_URL']);
         } else {
             $config = DotEnvHelper::get('db');
-            $isFlatConfig = ! is_array(ArrayHelper::flatten($config));
+            $isFlatConfig = ! is_array(ArrayHelper::first($config));
             if ($isFlatConfig) {
-                $connections['default'] = DotEnvHelper::get('db');
+                $connections['default'] = $config;
             } else {
-                $connections = DotEnvHelper::get('db');
+                $connections = $config;
             }
         }
 
