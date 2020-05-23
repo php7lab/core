@@ -34,12 +34,7 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
 
     public function getDataProvider(Query $query = null): DataProvider
     {
-        $dataProvider = new DataProvider([
-            'service' => $this,
-            'query' => $query,
-            //'page' => Yii::$app->request->get("page", 1),
-            //'pageSize' => Yii::$app->request->get("per-page", 20),
-        ]);
+        $dataProvider = new DataProvider($this, $query);
         return $dataProvider;
     }
 

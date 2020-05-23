@@ -2,11 +2,13 @@
 
 namespace PhpLab\Core\Domain\Entities;
 
+use Illuminate\Support\Collection;
+
 class DataProviderEntity
 {
 
-    private $page;
-    private $pageSize;
+    private $page = 1;
+    private $pageSize = 20;
     private $maxPageSize = 50;
     private $totalCount;
     private $pageCount;
@@ -47,7 +49,7 @@ class DataProviderEntity
         return $this->maxPageSize;
     }
 
-    public function setMaxPageSize($maxPageSize): void
+    public function setMaxPageSize(int $maxPageSize): void
     {
         $this->maxPageSize = $maxPageSize;
     }
@@ -57,12 +59,12 @@ class DataProviderEntity
         return $this->totalCount;
     }
 
-    public function setTotalCount($totalCount): void
+    public function setTotalCount(int $totalCount): void
     {
         $this->totalCount = $totalCount;
     }
 
-    public function getPageCount(): int
+    public function getPageCount(): ?int
     {
         if ( ! isset($this->totalCount)) {
             return null;
@@ -83,7 +85,7 @@ class DataProviderEntity
         return $this->collection;
     }
 
-    public function setCollection($collection): void
+    public function setCollection(Collection $collection): void
     {
         $this->collection = $collection;
     }

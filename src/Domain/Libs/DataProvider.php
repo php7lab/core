@@ -19,15 +19,37 @@ class DataProvider
     /** @var DataProviderEntity */
     private $entity;
 
-    public function __construct(array $config)
+    public function __construct(object $service, Query $query = null, int $page = 1, int $pageSize = 10)
     {
-        $this->service = ArrayHelper::getValue($config, 'service');
-        $this->query = ArrayHelper::getValue($config, 'query', Query::forge());
-
+        $this->service = $service;
+        $this->query = Query::forge($query);
         $this->entity = new DataProviderEntity;
-        $this->entity->setPage(intval(ArrayHelper::getValue($config, 'page', 1)));
-        $this->entity->setPageSize(intval(ArrayHelper::getValue($config, 'pageSize', 10)));
-        $this->entity->setMaxPageSize(intval(ArrayHelper::getValue($config, 'maxPageSize', 50)));
+        $this->entity->setPage($page);
+        $this->entity->setPageSize($pageSize);
+    }
+
+    public function setService(object $service) {
+        $this->service = $service;
+    }
+
+    public function getService(): ?object {
+        return $this->service;
+    }
+
+    public function setQuery(Query $query) {
+        $this->query = $query;
+    }
+
+    public function getQuery(): ?Query {
+        return $this->query;
+    }
+
+    public function setEntity(DataProviderEntity $entity) {
+        $this->entity = $entity;
+    }
+
+    public function getEntity(): ?DataProviderEntity {
+        return $this->entity;
     }
 
     public function getAll(): DataProviderEntity
