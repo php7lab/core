@@ -34,7 +34,6 @@ class DbHelper
                 $connections = $config;
             }
         }
-
         foreach ($connections as &$connection) {
             $connection = self::prepareConfig($connection);
         }
@@ -50,7 +49,7 @@ class DbHelper
         $connection['driver'] = $connection['driver'] ?? 'mysql';
 
         if(!empty($connection['dbname'])) {
-            $connection['dbname'] = trim($connection['dbname'], '/');
+            $connection['dbname'] = rtrim($connection['dbname'], '/');
         }
 
         unset($connection['database']);
