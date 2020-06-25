@@ -8,7 +8,7 @@ use PhpLab\Core\Domain\Libs\Query;
 use PhpLab\Core\Domain\Dto\WithDto;
 use PhpLab\Core\Domain\Entities\relation\RelationEntity;
 use PhpLab\Core\Domain\Helpers\EntityHelper;
-use PhpLab\Core\Domain\Helpers\Helper;
+use PhpLab\Core\Helpers\Helper;
 use PhpLab\Core\Domain\Interfaces\Repository\RelationConfigInterface;
 use PhpLab\Core\Domain\Strategies\join\JoinStrategy;
 use PhpLab\Core\Exceptions\InvalidConfigException;
