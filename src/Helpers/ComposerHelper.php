@@ -24,8 +24,9 @@ class ComposerHelper
             if(strpos($path, 'phar://') === 0) {
                 include_once $fileName;
             } else {
+                $fileName = str_replace('\\', '/', $fileName);
                 if ( ! file_exists($fileName)) {
-                    exit($fileName);
+                    //exit($fileName);
 
                     exit('Class "' . $className . '" not found!');
                     //throw new FileNotFoundException('Class "' . $className . '" not found!');

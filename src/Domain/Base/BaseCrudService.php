@@ -66,6 +66,11 @@ abstract class BaseCrudService extends BaseService implements CrudServiceInterfa
         return $this->getRepository()->oneById($id, $query);
     }
 
+    public function persist(object $entity) {
+        ValidationHelper::validateEntity($entity);
+        $this->getRepository()->create($entity);
+    }
+
     public function create($data): EntityIdInterface
     {
         $isAvailable = $this->beforeMethod([$this, 'create']);
