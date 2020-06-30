@@ -22,13 +22,16 @@ class CommandHelper
     {
         $path = ComposerHelper::getPsr4Path($namespace);
         $files = FileHelper::scanDir($path);
+
         $commands = array_map(function ($item) use ($namespace) {
             $item = str_replace('.php', '', $item);
             return $namespace . '\\' . $item;
         }, $files);
+
         foreach ($commands as $commandClassName) {
             try {
                 $commandInstance = $container->get($commandClassName);
+                /** @var Application $application */
                 $application = $container->get(Application::class);
                 $application->add($commandInstance);
             } catch (\Throwable $e) {}
