@@ -77,7 +77,7 @@ class EntityHelper
         return $normalizeCollection->all();
     }
 
-    public static function toArray($entity): array
+    public static function toArray($entity, bool $recursive = false): array
     {
         $array = [];
         if(is_array($entity)) {
@@ -89,6 +89,13 @@ class EntityHelper
             $propertyAccessor = PropertyAccess::createPropertyAccessor();
             foreach ($attributes as $attribute) {
                 $array[$attribute] = $propertyAccessor->getValue($entity, $attribute);
+            }
+        }
+        if($recursive) {
+            foreach ($array as &$item) {
+                if(is_object($item)) {
+                    $item = self::toArray($item);
+                }
             }
         }
         return $array;
