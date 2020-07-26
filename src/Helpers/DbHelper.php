@@ -4,22 +4,29 @@ namespace PhpLab\Core\Helpers;
 
 use PhpLab\Core\Legacy\Yii\Helpers\ArrayHelper;
 use PhpLab\Core\Libs\Env\DotEnvHelper;
+use PhpLab\Eloquent\Db\Enums\DbDriverEnum;
 
 class DbHelper
 {
 
     static function buildConfigForPdo(array $config): array {
-        $dsnArray[] = "{$config['driver']}:host={$config['host']}";
-        foreach ($config as $configName => $configValue) {
-            if(!empty($configValue) && ! in_array($configName, ['driver', 'host', 'username' ,'password'])) {
-                $dsnArray[] = "$configName=$configValue";
+        if($config['driver'] == DbDriverEnum::SQLITE) {
+            return [
+                'dsn' => 'sqlite:' . $config['dbname'],
+            ];
+        } else {
+            $dsnArray[] = "{$config['driver']}:host={$config['host']}";
+            foreach ($config as $configName => $configValue) {
+                if(!empty($configValue) && ! in_array($configName, ['driver', 'host', 'username' ,'password'])) {
+                    $dsnArray[] = "$configName=$configValue";
+                }
             }
+            return [
+                "username" => $config['username'] ?? '',
+                "password" => $config['password'] ?? '',
+                "dsn" => implode(';', $dsnArray),
+            ];
         }
-        return [
-            "username" => $config['username'] ?? '',
-            "password" => $config['password'] ?? '',
-            "dsn" => implode(';', $dsnArray),
-        ];
     }
 
     static function getConfigFromEnv() {
