@@ -62,11 +62,11 @@ class Benchmark
         return self::$data;
     }
 
-    public static function allFlat()
+    public static function allFlat($percision = 5)
     {
         $durations = ArrayHelper::map(self::$data, 'name', 'duration');
         $durations = array_map(function ($value) {
-            return round($value, 4);
+            return round($value, $percision);
         }, $durations);
         return $durations;
     }
