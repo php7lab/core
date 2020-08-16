@@ -27,7 +27,6 @@ class CommandHelper
             $item = str_replace('.php', '', $item);
             return $namespace . '\\' . $item;
         }, $files);
-
         foreach ($commands as $commandClassName) {
             try {
                 $commandInstance = $container->get($commandClassName);
