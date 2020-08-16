@@ -93,8 +93,8 @@ class EntityHelper
         }
         if($recursive) {
             foreach ($array as &$item) {
-                if(is_object($item)) {
-                    $item = self::toArray($item);
+                if(is_object($item) || is_array($item)) {
+                    $item = self::toArray($item, $recursive);
                 }
             }
         }
